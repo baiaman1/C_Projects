@@ -1,0 +1,1159 @@
+#include "s21_decimal.h"
+
+#test is_less_0
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+ck_assert_int_eq(0, s21_is_less(val1, val2));
+
+#test is_less_1
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 255;
+val2.bits[0] = 256;
+ck_assert_int_eq(1, s21_is_less(val1, val2));
+
+
+#test is_less_2
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 256;
+val2.bits[0] = 256;
+ck_assert_int_eq(0, s21_is_less(val1, val2));
+
+
+#test is_less_3
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 257;
+val2.bits[0] = 256;
+ck_assert_int_eq(0, s21_is_less(val1, val2));
+
+
+#test is_less_4
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+set_bit(&val1, 1, 127);
+ck_assert_int_eq(0, s21_is_less(val1, val2));
+
+
+#test is_less_5
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 257;
+val2.bits[0] = 257;
+val1.bits[2] = 256;
+val2.bits[2] = 257;
+set_exp(&val1, 11);
+set_exp(&val2, 10);
+ck_assert_int_eq(1, s21_is_less(val1, val2));
+
+
+#test is_less_6
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 257;
+val2.bits[0] = 257;
+val1.bits[2] = 256;
+val2.bits[2] = 257;
+set_exp(&val1, 10);
+set_exp(&val2, 11);
+ck_assert_int_eq(0, s21_is_less(val1, val2));
+
+
+#test is_less_7
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val2.bits[2] = 257;
+set_bit(&val1, 1, 127);
+set_bit(&val2, 1, 127);
+ck_assert_int_eq(0, s21_is_less(val1, val2));
+
+
+#test is_less_8
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+set_bit(&val1, 1, 127);
+set_bit(&val2, 1, 127);
+set_bit(&val1, 1, 83);
+set_exp(&val1, 12);
+set_exp(&val2, 11);
+ck_assert_int_eq(1, s21_is_less(val1, val2));
+
+
+#test is_less_9
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+set_bit(&val1, 1, 127);
+set_bit(&val2, 1, 127);
+set_bit(&val1, 1, 83);
+set_bit(&val2, 1, 83);
+set_exp(&val1, 10);
+set_exp(&val2, 11);
+ck_assert_int_eq(1, s21_is_less(val1, val2));
+
+
+#test is_less_10
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+set_bit(&val1, 1, 127);
+set_bit(&val2, 1, 127);
+set_bit(&val1, 1, 83);
+set_exp(&val1, 10);
+set_exp(&val2, 10);
+ck_assert_int_eq(1, s21_is_less(val1, val2));
+
+
+#test is_less_11
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+set_bit(&val1, 1, 127);
+set_bit(&val2, 0, 127);
+set_bit(&val1, 1, 83);
+ck_assert_int_eq(1, s21_is_less(val1, val2));
+
+
+#test is_less_12
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+set_bit(&val1, 1, 127);
+set_bit(&val2, 0, 127);
+ck_assert_int_eq(0, s21_is_less(val1, val2));
+
+#test is_greater_0
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+ck_assert_int_eq(0, s21_is_greater(val1, val2));
+
+#test is_greater_1
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 255;
+val2.bits[0] = 256;
+ck_assert_int_eq(0, s21_is_greater(val1, val2));
+
+
+#test is_greater_2
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 256;
+val2.bits[0] = 256;
+ck_assert_int_eq(0, s21_is_greater(val1, val2));
+
+
+#test is_greater_3
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 257;
+val2.bits[0] = 256;
+ck_assert_int_eq(1, s21_is_greater(val1, val2));
+
+
+#test is_greater_4
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+set_bit(&val1, 1, 127);
+ck_assert_int_eq(0, s21_is_greater(val1, val2));
+
+
+#test is_greater_5
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 257;
+val2.bits[0] = 257;
+val1.bits[2] = 256;
+val2.bits[2] = 257;
+set_exp(&val1, 11);
+set_exp(&val2, 10);
+ck_assert_int_eq(0, s21_is_greater(val1, val2));
+
+
+#test is_greater_6
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val1.bits[0] = 257;
+val2.bits[0] = 257;
+val1.bits[2] = 256;
+val2.bits[2] = 257;
+set_exp(&val1, 10);
+set_exp(&val2, 11);
+ck_assert_int_eq(1, s21_is_greater(val1, val2));
+
+
+#test is_greater_7
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val2.bits[2] = 257;
+set_bit(&val1, 1, 127);
+set_bit(&val2, 1, 127);
+ck_assert_int_eq(1, s21_is_greater(val1, val2));
+
+
+#test is_greater_8
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+val2.bits[2] = 257;
+set_bit(&val1, 1, 127);
+set_bit(&val2, 0, 127);
+ck_assert_int_eq(0, s21_is_greater(val1, val2));
+
+
+
+#test is_greater_or_equal_0
+s21_decimal val1 = {0};
+s21_decimal val2 = {0};
+ck_assert_int_eq(0, s21_is_greater(val1, val2));
+
+#test is_greater_or_equal_1
+        s21_decimal val1 = {0};
+        s21_decimal val2 = {0};
+        val1.bits[0] = 255;
+        val2.bits[0] = 256;
+        ck_assert_int_eq(0, s21_is_greater_or_equal(val1, val2));
+
+
+#test is_greater_or_equal_2
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val1.bits[0] = 256;
+    val2.bits[0] = 256;
+    ck_assert_int_eq(1, s21_is_greater_or_equal(val1, val2));
+
+
+#test is_greater_or_equal_3
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val1.bits[0] = 257;
+    val2.bits[0] = 256;
+    ck_assert_int_eq(1, s21_is_greater_or_equal(val1, val2));
+
+
+#test is_greater_or_equal_4
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 127);
+    ck_assert_int_eq(1, s21_is_greater_or_equal(val1, val2));
+
+
+
+#test is_greater_or_equal_5
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val1.bits[0] = 257;
+    val2.bits[0] = 257;
+    val1.bits[2] = 256;
+    val2.bits[2] = 257;
+    set_exp(&val1, 11);
+    set_exp(&val2, 10);
+    ck_assert_int_eq(0, s21_is_greater_or_equal(val1, val2));
+
+
+#test is_greater_or_equal_6
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val1.bits[0] = 257;
+    val2.bits[0] = 257;
+    val1.bits[2] = 256;
+    val2.bits[2] = 257;
+    set_exp(&val1, 10);
+    set_exp(&val2, 11);
+    ck_assert_int_eq(1, s21_is_greater_or_equal(val1, val2));
+
+
+#test is_greater_or_equal_7
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val2.bits[2] = 257;
+    set_bit(&val1, 1, 127);
+    set_bit(&val2, 1, 127);
+    ck_assert_int_eq(1, s21_is_greater_or_equal(val1, val2));
+
+
+
+#test is_less_or_equal_0
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    ck_assert_int_eq(1, s21_is_less_or_equal(val1, val2));
+
+
+#test is_less_or_equal_1
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val1.bits[0] = 255;
+    val2.bits[0] = 256;
+    ck_assert_int_eq(1, s21_is_less_or_equal(val1, val2));
+
+
+#test is_less_or_equal_2
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val1.bits[0] = 256;
+    val2.bits[0] = 256;
+    ck_assert_int_eq(1, s21_is_less_or_equal(val1, val2));
+
+
+#test is_less_or_equal_3
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val1.bits[0] = 257;
+    val2.bits[0] = 256;
+    ck_assert_int_eq(0, s21_is_less_or_equal(val1, val2));
+
+
+#test is_less_or_equal_4
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 127);
+    ck_assert_int_eq(1, s21_is_less_or_equal(val1, val2));
+
+
+#test is_less_or_equal_5
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val1.bits[0] = 257;
+    val2.bits[0] = 257;
+    val1.bits[2] = 256;
+    val2.bits[2] = 257;
+    set_exp(&val1, 11);
+    set_exp(&val2, 10);
+    ck_assert_int_eq(1, s21_is_less_or_equal(val1, val2));
+
+
+#test is_less_or_equal_6
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val1.bits[0] = 257;
+    val2.bits[0] = 257;
+    val1.bits[2] = 256;
+    val2.bits[2] = 257;
+    set_exp(&val1, 10);
+    set_exp(&val2, 11);
+    ck_assert_int_eq(0, s21_is_less_or_equal(val1, val2));
+
+
+#test is_less_or_equal_7
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    val2.bits[2] = 257;
+    set_bit(&val1, 1, 127);
+    set_bit(&val2, 1, 127);
+    ck_assert_int_eq(0, s21_is_less_or_equal(val1, val2));
+
+
+#test is_equal_0
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 127);
+    set_bit(&val2, 0, 127);
+    ck_assert_int_eq(1, s21_is_equal(val1, val2));
+
+#test is_equal_1
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val2, 1, 3);
+    ck_assert_int_eq(0, s21_is_equal(val1, val2));
+
+
+#test is_equal_2
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val2, 1, 127);
+    set_bit(&val1, 1, 33);
+    set_bit(&val2, 1, 33);
+    ck_assert_int_eq(0, s21_is_equal(val1, val2));
+
+
+#test is_equal_3
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 3);
+    set_bit(&val2, 1, 3);
+    ck_assert_int_eq(1, s21_is_equal(val1, val2));
+
+
+#test is_equal_4
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 3);
+    set_bit(&val2, 1, 4);
+    ck_assert_int_eq(0, s21_is_equal(val1, val2));
+
+
+#test is_equal_5
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_exp(&val1, 3);
+    set_exp(&val2, 3);
+    ck_assert_int_eq(1, s21_is_equal(val1, val2));
+
+
+#test is_equal_6
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 3);
+    set_bit(&val2, 1, 4);
+    set_exp(&val1, 3);
+    set_exp(&val2, 3);
+    ck_assert_int_eq(0, s21_is_equal(val1, val2));
+
+
+
+#test is_equal_7
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_exp(&val1, 3);
+    set_exp(&val2, 2);
+    ck_assert_int_eq(1, s21_is_equal(val1, val2));
+
+
+#test is_equal_8
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    ck_assert_int_eq(1, s21_is_equal(val1, val2));
+
+
+#test is_not_equal_0
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 127);
+    set_bit(&val2, 0, 127);
+    ck_assert_int_eq(0, s21_is_not_equal(val1, val2));
+
+
+#test is_not_equal_1
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val2, 1, 3);
+    ck_assert_int_eq(1, s21_is_not_equal(val1, val2));
+
+
+#test is_not_equal_2test 
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val2, 1, 127);
+    set_bit(&val1, 1, 33);
+    set_bit(&val2, 1, 33);
+    ck_assert_int_eq(1, s21_is_not_equal(val1, val2));
+
+
+#test is_not_equal_3test 
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 3);
+    set_bit(&val2, 1, 3);
+    ck_assert_int_eq(0, s21_is_not_equal(val1, val2));
+
+#test is_not_equal_4test 
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 3);
+    set_bit(&val2, 1, 4);
+    ck_assert_int_eq(1, s21_is_not_equal(val1, val2));
+
+
+#test is_not_equal_5test 
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_exp(&val1, 3);
+    set_exp(&val2, 3);
+    ck_assert_int_eq(0, s21_is_not_equal(val1, val2));
+
+
+#test is_not_equal_6test 
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_bit(&val1, 1, 3);
+    set_bit(&val2, 1, 4);
+    set_exp(&val1, 3);
+    set_exp(&val2, 3);
+    ck_assert_int_eq(1, s21_is_not_equal(val1, val2));
+
+
+#test is_not_equal_7test 
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    set_exp(&val1, 3);
+    set_exp(&val2, 2);
+    ck_assert_int_eq(0, s21_is_not_equal(val1, val2));
+
+
+#test is_not_equal_8test 
+    s21_decimal val1 = {0};
+    s21_decimal val2 = {0};
+    ck_assert_int_eq(0, s21_is_not_equal(val1, val2));
+
+
+#test sub_0test 
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+
+#test sub_1test 
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+
+#test sub_2test 
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+#test sub_3test 
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+#test sub_4test 
+    s21_decimal val1 = {{8, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+#test sub_5test 
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{8, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+
+#test sub_6test 
+    s21_decimal val1 = {{8, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+#test sub_7test 
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{8, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+
+#test sub_8test 
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{8, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+
+#test sub_9test 
+    s21_decimal val1 = {{8, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+
+#test sub_10test 
+    s21_decimal val1 = {{8, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+#test sub_11test 
+    s21_decimal val1 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{4, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(2, s21_sub(val1, val2, &res));
+
+
+#test sub_12test 
+    s21_decimal val1 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    s21_decimal val2 = {{4, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+#test sub_13test 
+    s21_decimal val1 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{4, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+#test sub_14test 
+    s21_decimal val1 = {{4, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(2, s21_sub(val1, val2, &res));
+
+#test sub_15test 
+    s21_decimal val1 = {{4, 0, 0, 0}};
+    s21_decimal val2 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+
+#test sub_16test 
+    s21_decimal val1 = {{4, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+
+#test sub_17test 
+    s21_decimal val1 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    s21_decimal val2 = {{4, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(1, s21_sub(val1, val2, &res));
+
+
+#test sub_18test 
+    s21_decimal val1 = {{4, 0, 0, 0}};
+    s21_decimal val2 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(1, s21_sub(val1, val2, &res));
+
+#test sub_19test 
+    s21_decimal val1 = {{4, 0, 0, 0}};
+    s21_decimal val2 = {{4, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_sub(val1, val2, &res));
+
+#test sub_20test 
+    s21_decimal dec1;
+    s21_decimal dec2;
+    int tmp1 = 100;
+    int tmp2 = 99999;
+    int res_s21 = 0;
+    int res = -99899;
+    s21_decimal res1;
+    s21_from_int_to_decimal(tmp1, &dec1);
+    s21_from_int_to_decimal(tmp2, &dec2);
+    s21_sub(dec1, dec2, &res1);
+    s21_from_decimal_to_int(res1, &res_s21);
+    ck_assert_int_eq(res_s21, res);
+
+
+#test sub_21test 
+    s21_decimal dec1;
+    s21_decimal dec2;
+    int tmp1 = -100;
+    int tmp2 = -99999;
+    int res_s21 = 0;
+    s21_decimal res1;
+    int res = 99899;
+    s21_from_int_to_decimal(tmp1, &dec1);
+    s21_from_int_to_decimal(tmp2, &dec2);
+    s21_sub(dec1, dec2, &res1);
+    s21_from_decimal_to_int(res1, &res_s21);
+    ck_assert_int_eq(res_s21, res);
+
+#test add_0
+    s21_decimal val1 = {{15, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_1
+    s21_decimal val1 = {{15, 0, 0, 0}};
+    s21_decimal val2 = {{15, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_2
+    s21_decimal val1 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    s21_decimal val2 = {{1, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(1, s21_add(val1, val2, &res));
+
+
+#test add_3
+    s21_decimal val1 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(2, s21_add(val1, val2, &res));
+
+#test add_4
+    s21_decimal val1 = {{8, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_5
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{8, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+
+#test add_6
+    s21_decimal val1 = {{8, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_7
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{8, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_8
+    s21_decimal val1 = {{0}};
+    s21_decimal val2 = {{0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_9
+    s21_decimal val1 = {{4, 0, 0, 0}};
+    s21_decimal val2 = {{8, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_10
+    s21_decimal val1 = {{8, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+
+#test add_11
+    s21_decimal val1 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{4, 0, 0, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_12
+    s21_decimal val1 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{4, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(2, s21_add(val1, val2, &res));
+
+
+#test add_13
+    s21_decimal val1 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    s21_decimal val2 = {{4, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_14
+    s21_decimal val1 = {{4, 0, 0, 0}};
+    s21_decimal val2 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_15
+    s21_decimal val1 = {{4, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_16
+    s21_decimal val1 = {{4, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal res;
+    ck_assert_int_eq(2, s21_add(val1, val2, &res));
+
+
+#test add_17
+    s21_decimal val1 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    s21_decimal val2 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    set_exp(&val1, 5);
+    set_exp(&val2, 3);
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test add_18
+    s21_decimal val1 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    set_exp(&val1, 5);
+    set_exp(&val2, 3);
+    s21_decimal res;
+    ck_assert_int_eq(0, s21_add(val1, val2, &res));
+
+
+#test mul_0
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mul(val1, val2, &res));
+
+
+#test mul_1
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mul(val1, val2, &res));
+
+
+#test mul_2
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mul(val1, val2, &res));
+
+
+#test mul_3
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mul(val1, val2, &res));
+
+
+
+#test mul_4
+    s21_decimal val1 = {{8, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mul(val1, val2, &res));
+
+
+
+#test mul_5
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{8, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mul(val1, val2, &res));
+
+
+#test mul_6
+    s21_decimal val1 = {{8, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mul(val1, val2, &res));
+
+
+#test mul_7
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{8, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mul(val1, val2, &res));
+
+
+#test mul_8
+    s21_decimal val1 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(1, s21_mul(val1, val2, &res));
+
+
+#test mul_9
+    s21_decimal val1 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(2, s21_mul(val1, val2, &res));
+
+
+#test mul_10
+    s21_decimal val1 = {{UINT_MAX, UINT_MAX, UINT_MAX, 0}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(1, s21_mul(val1, val2, &res));
+
+
+#test mul_11
+    s21_decimal val1 = {
+            {UINT_MAX, UINT_MAX, UINT_MAX, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{0, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mul(val1, val2, &res));
+
+#test div_0test 
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_div(val1, val2, &res));
+
+
+#test div_1test 
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_div(val1, val2, &res));
+
+#test div_2test 
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_div(val1, val2, &res));
+
+
+#test div_3test 
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{0, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(3, s21_div(val1, val2, &res));
+
+#test div_4test 
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{0, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(3, s21_div(val1, val2, &res));
+
+
+#test mod_0test 
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mod(val1, val2, &res));
+
+#test mod_1test 
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mod(val1, val2, &res));
+
+#test mod_2test 
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(0, s21_mod(val1, val2, &res));
+
+
+#test mod_3test 
+    s21_decimal val1 = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal val2 = {{0, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(3, s21_mod(val1, val2, &res));
+
+
+#test mod_4test 
+    s21_decimal val1 = {{2, 0, 0, 0}};
+    s21_decimal val2 = {{0, 0, 0, 0}};
+    s21_decimal res = {{0}};
+    ck_assert_int_eq(3, s21_mod(val1, val2, &res));
+
+
+#test negate_0test 
+    s21_decimal val = {{2, 0, 0, 0}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_negate(val, &res));
+
+
+#test negate_1test 
+    s21_decimal val = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_negate(val, &res));
+
+
+#test negate_2test 
+    s21_decimal val = {{0, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_negate(val, &res));
+
+
+#test negate_3test 
+    s21_decimal val = {0};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_negate(val, &res));
+
+
+#test round_0test 
+    s21_decimal val = {{7, 7, 7, 0}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test round_1test 
+    s21_decimal val = {{3, 3, 3, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test round_2test 
+    s21_decimal val = {{3, 3, 3, 0}};
+    s21_decimal res = {0};
+    set_exp(&val, 5);
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test round_3test 
+    s21_decimal val = {{7, 7, 7, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    set_exp(&val, 5);
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test round_4test 
+    s21_decimal val = {{25, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    set_exp(&val, 1);
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test round_5test 
+    s21_decimal val = {{26, 0, 0, 0}};
+    s21_decimal res = {0};
+    set_exp(&val, 1);
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test round_6test 
+    s21_decimal val = {{115, 0, 0, 0}};
+    s21_decimal res = {0};
+    set_exp(&val, 1);
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test round_7test 
+    s21_decimal val = {{118, 0, 0, 0}};
+    s21_decimal res = {0};
+    set_exp(&val, 1);
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test round_8test 
+    s21_decimal val = {{125, 0, 0, 0}};
+    s21_decimal res = {0};
+    set_exp(&val, 1);
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test round_9test 
+    s21_decimal val = {{128, 0, 0, 0}};
+    s21_decimal res = {0};
+    set_exp(&val, 1);
+    ck_assert_int_eq(0, s21_round(val, &res));
+
+
+#test truncate_0test 
+    s21_decimal val = {{7, 7, 7, 0}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_truncate(val, &res));
+
+
+#test truncate_1test 
+    s21_decimal val = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_truncate(val, &res));
+
+
+#test truncate_2test 
+    s21_decimal val = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_truncate(val, &res));
+
+
+#test truncate_3test 
+    s21_decimal val = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    set_exp(&val, 5);
+    ck_assert_int_eq(0, s21_truncate(val, &res));
+
+
+#test floor_0test 
+    s21_decimal val = {{2, 0, 0, 0}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_floor(val, &res));
+
+
+#test floor_1test 
+    s21_decimal val = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    ck_assert_int_eq(0, s21_floor(val, &res));
+
+
+#test floor_2test 
+    s21_decimal val = {{2, 0, 0, ~(UINT_MAX / 2)}};
+    s21_decimal res = {0};
+    set_exp(&val, 5);
+    ck_assert_int_eq(0, s21_floor(val, &res));
+
+
+#test floor_3test 
+    s21_decimal val = {{2, 0, 0, 0}};
+    s21_decimal res = {0};
+    set_exp(&val, 5);
+    ck_assert_int_eq(0, s21_floor(val, &res));
+
+
+#test from_decimal_to_float_0test 
+    s21_decimal val = {{123456789, 0, 0, 0}};
+    set_exp(&val, 5);
+    float res = 1234.56789;
+    float tmp = 0.;
+    float *dst = &tmp;
+    s21_from_decimal_to_float(val, dst);
+    ck_assert_float_eq(*dst, res);
+
+
+#test from_decimal_to_float_1test 
+    s21_decimal val = {{123456789, 0, 0, 0}};
+    set_bit(&val, 1, 127);
+    set_exp(&val, 5);
+    float res = -1234.56789;
+    float tmp = 0.;
+    float *dst = &tmp;
+    s21_from_decimal_to_float(val, dst);
+    ck_assert_float_eq(*dst, res);
+
+
+#test from_float_to_decimal_0test 
+    s21_decimal val = {{0, 0, 0, 0}};
+    float res = 0.;
+    float tmp = -1234.56789;
+    s21_from_float_to_decimal(tmp, &val);
+    printf(" ");
+    s21_from_decimal_to_float(val, &res);
+    ck_assert_float_eq(res, tmp);
+
+
+#test from_float_to_decimal_1test 
+    s21_decimal val = {{0, 0, 0, 0}};
+    float res = 0.;
+    float tmp = 1234.56789;
+    s21_from_float_to_decimal(tmp, &val);
+    printf(" ");
+    s21_from_decimal_to_float(val, &res);
+    ck_assert_float_eq(res, tmp);
+
+
+#test from_decimal_to_int_0
+    s21_decimal val = {{123456789, 0, 0, 0}};
+    set_exp(&val, 5);
+    int res = 1234;
+    int tmp = 0;
+    int *dst = &tmp;
+    s21_from_decimal_to_int(val, dst);
+    ck_assert_int_eq(*dst, res);
+
+
+
+#test from_decimal_to_int_1test 
+    s21_decimal val = {{123456789, 0, 0, 0}};
+    set_bit(&val, 1, 127);
+    set_exp(&val, 5);
+    int res = -1234;
+    int tmp = 0.;
+    int *dst = &tmp;
+    s21_from_decimal_to_int(val, dst);
+    ck_assert_int_eq(*dst, res);
+
+
+#test from_int_to_decimal_0test 
+    s21_decimal val = {{0, 0, 0, 0}};
+    int res = 0;
+    int tmp = 123456789;
+    s21_from_int_to_decimal(tmp, &val);
+    s21_from_decimal_to_int(val, &res);
+    ck_assert_int_eq(res, tmp);
