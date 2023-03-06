@@ -2,22 +2,22 @@
 
 // Создание матриц (create_matrix)
 int s21_create_matrix(int rows, int columns, matrix_t *result) {
-  int err = 0;
+  int res = 0;
   if (rows <= 0 || columns <= 0) {
-    err = 1;
+    res = 1;
   } else {
     result->rows = rows;
     result->columns = columns;
     result->matrix = calloc(rows, sizeof(double *));
-    err = 1;
+    res = 1;
     if (result->matrix != NULL) {
       for (int i = 0; i < result->rows; i++) {
         result->matrix[i] = calloc(columns, sizeof(double));
       }
-      err = 0;
+      res = 0;
     }
   }
-  return err;
+  return res;
 }
 
 // Очистка матриц (remove_matrix)
@@ -135,10 +135,10 @@ int s21_transpose(matrix_t *A, matrix_t *result) {
 
 // Получить минор зад-го элемента
 int get_minor_ij(int row, int column, matrix_t *A, matrix_t *result) {
-  int err = 1;
+  int res = 1;
   if (A->matrix != NULL) {
-    err = s21_create_matrix(A->rows - 1, A->columns - 1, result);
-    if (err == 0) {
+    res = s21_create_matrix(A->rows - 1, A->columns - 1, result);
+    if (res == 0) {
       for (int i = 0; i < A->rows; i++) {
         int tmp_row = i;
         if (i > row - 1) {
@@ -156,7 +156,7 @@ int get_minor_ij(int row, int column, matrix_t *A, matrix_t *result) {
       }
     }
   }
-  return err;
+  return res;
 }
 
 // Mатрица алгебраических дополнений
@@ -171,7 +171,7 @@ int s21_calc_complements(matrix_t *A, matrix_t *result) {
     for (int i = 0; i < A->rows; i++) {
       for (int j = 0; j < A->columns; j++) {
         double det = 0;
-        matrix_t minor;
+        matrix_t minor = {0};
         get_minor_ij(i + 1, j + 1, A, &minor);
         s21_determinant(&minor, &det);
         s21_remove_matrix(&minor);
@@ -185,23 +185,26 @@ int s21_calc_complements(matrix_t *A, matrix_t *result) {
 // Определитель матрицы
 int s21_determinant(matrix_t *A, double *result) {
   int res = 0;
-  if (!valid_in(A) || result == NULL) {
+  if (!valid_in(A) || !result) {
     res = 1;
   } else if (A->rows != A->columns) {
     res = 2;
-  } else if (A->rows == 1) {
-    *result = A->matrix[0][0];
-  } else if (A->rows == 2) {
-    *result =
-        A->matrix[0][0] * A->matrix[1][1] - A->matrix[0][1] * A->matrix[1][0];
   } else {
-    for (int i = 0; i < A->rows; i++) {
-      matrix_t minor;
-      double result_minor = 0;
-      get_minor_ij(1, i + 1, A, &minor);
-      s21_determinant(&minor, &result_minor);
-      s21_remove_matrix(&minor);
-      *result += pow((-1), i) * A->matrix[0][i] * result_minor;
+    *result = 0;
+    if (A->rows == 1) {
+      *result = A->matrix[0][0];
+    } else if (A->rows == 2) {
+      *result =
+          A->matrix[0][0] * A->matrix[1][1] - A->matrix[0][1] * A->matrix[1][0];
+    } else {
+      matrix_t minor = {0};
+      for (int i = 0; i < A->rows; i++) {
+        double result_minor = 0;
+        get_minor_ij(1, i + 1, A, &minor);
+        s21_determinant(&minor, &result_minor);
+        s21_remove_matrix(&minor);
+        *result += pow((-1), i) * A->matrix[0][i] * result_minor;
+      }
     }
   }
   return res;
@@ -216,9 +219,9 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
   } else if (res || det == 0) {
     res = 2;
   } else {
-    matrix_t tmp_calc;
+    matrix_t tmp_calc = {0};
     if (!s21_calc_complements(A, &tmp_calc)) {
-      matrix_t tmp_tran;
+      matrix_t tmp_tran = {0};
       if (!s21_transpose(&tmp_calc, &tmp_tran)) {
         s21_mult_number(&tmp_tran, 1 / det, result);
       }

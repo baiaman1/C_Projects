@@ -1,6 +1,6 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/fenixnec/Desktop/matrix'
-make: Leaving directory `/Users/fenixnec/Desktop/matrix'
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/fenixnec/Desktop/C_Projects/s21_matrix'
+make: Leaving directory `/Users/fenixnec/Desktop/C_Projects/s21_matrix'
  
 make: *** No targets specified and no makefile found.  Stop.
 

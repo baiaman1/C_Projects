@@ -4,13 +4,13 @@ OBJ=s21_matrix.o
 CFLAGS=-Wall -Werror -Wextra
 TESTFLAGS=-lcheck -lm -lpthread -lgcov
 
-all: s21_matrix.o test gcov_report s21_matrix.a
+all: s21_matrix.o test gcov_report s21_matrix.a check
 
 gcov_report: s21_matrix.o test
 	mkdir report
 	gcovr -r. --html --html-details -o report/coverage_report.html
 
-test: lib.a s21_matrix_test.o $(OBJ)
+test: lib.a s21_matrix_test.o $(OBJ) 
 	$(CC) $(FLAGS) lib.a s21_matrix_test.o $(OBJ) $(TESTFLAGS) -o test
 	./test
 
@@ -30,4 +30,9 @@ s21_matrix_verter.o: $(SRC)
 	$(CC) $(CFLAGS) -c $^
 
 clean:
-	rm -rf *.o *.gc* *.a test a.out report
+	rm -rf *.o *.gc* *.a test a.out report *.txt test.dSYM
+
+check: test
+	valgrind --vgdb=no --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=RESULT_VALGRIND.txt ./test
+	cppcheck --enable=all --suppress=missingIncludeSystem --inconclusive --check-config *.c *.h
+	make test

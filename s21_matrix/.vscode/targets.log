@@ -10,9 +10,10 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target `all'.  Stop.
 
 
-# Make data base, printed on Wed Aug 10 18:27:40 2022
+# Make data base, printed on Mon Mar  6 18:03:16 2023
 
 # Variables
+ 
 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
@@ -25,13 +26,15 @@ make: *** No rule to make target `all'.  Stop.
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /Users/fenixnec/Desktop/matrix
+CURDIR := /Users/fenixnec/Desktop/C_Projects/s21_matrix
 # makefile
 SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
 _ = /usr/bin/make
+# environment
+MAVEN_HOME = /opt/JavaTools/Maven
 # makefile
 MAKEFILE_LIST := 
 # environment
@@ -49,13 +52,13 @@ ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.CVFT9Q4MMt/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.RSnArY7E8h/Listeners
 # environment
 CPLUS_INCLUDE_PATH = /usr/local/include/
 # automatic
 %F = $(notdir $%)
 # environment
-PWD = /Users/fenixnec/Desktop/matrix
+PWD = /Users/fenixnec/Desktop/C_Projects/s21_matrix
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
@@ -65,7 +68,7 @@ HOME = /Users/fenixnec
 # default
 MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/fenixnec/Library/Application Support/Code/CachedData/da76f93349a72022ca4670c1b84860304616aaa2
+VSCODE_CODE_CACHE_PATH = /Users/fenixnec/Library/Application Support/Code/CachedData/d045a5eda657f4d7b676dedbfa7aab8207f8a075
 # environment
 LOGNAME = fenixnec
 # environment
@@ -99,7 +102,7 @@ TMPDIR = /var/folders/zz/zyxvpxvq6csfxvn_n000291w000k8g/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/fenixnec/Library/Application Support/Code/1.70.0-main.sock
+VSCODE_IPC_HOOK = /Users/fenixnec/Library/Application Support/Code/1.72.2-main.sock
 # environment
 MallocNanoZone = 0
 # makefile
@@ -109,7 +112,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.648269.648275
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.12887288013.12887288235
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
@@ -135,9 +138,10 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 132
+VSCODE_PID = 82054
 # variable set hash-table stats:
-# Load=61/1024=6%, Rehash=0, Collisions=1/82=1%
+# Load=62/1024=6%, Rehash=0, Collisions=1/83=1%
+ 
 
 # Pattern-specific Variable Values
 
@@ -145,7 +149,7 @@ VSCODE_PID = 132
 
 # Directories
 
-# . (device 16777230, inode 708275): 15 files, no impossibilities.
+# . (device 16777230, inode 2270727): 15 files, no impossibilities.
 
 # 15 files, no impossibilities in 1 directories.
 
@@ -219,6 +223,6 @@ GNUmakefile:
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Wed Aug 10 18:27:40 2022
+# Finished Make data base on Mon Mar  6 18:03:16 2023
 
  

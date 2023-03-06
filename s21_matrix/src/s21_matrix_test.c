@@ -332,35 +332,35 @@ START_TEST(calc_complements_error) {
   s21_remove_matrix(&b);
 }
 END_TEST
-
+// результат вашей программы зависит от неинициализированной памяти
 START_TEST(determinant) {
-  matrix_t a;
-  double result;
-  s21_create_matrix(4, 4, &a);
+  matrix_t my_mat;
+  double result; // <-- INIT
+  s21_create_matrix(4, 4, &my_mat);
   double A[4][4] = {{1, 2, 3, 4}, {2, 3, 4, 5}, {3, 4, 5, 6}, {4, 5, 6, 7}};
   for (int k = 0; k < 4; k++) {
     for (int g = 0; g < 4; g++) {
-      a.matrix[k][g] = A[k][g];
+      my_mat.matrix[k][g] = A[k][g];
     }
   }
-  int d = s21_determinant(&a, &result);
+  int d = s21_determinant(&my_mat, &result);
   ck_assert_int_eq(d, 0);
   ck_assert_double_eq_tol(result, 0, 1e-6);
-  s21_remove_matrix(&a);
+  s21_remove_matrix(&my_mat);
 }
 END_TEST
 
 START_TEST(determinant_error) {
-  matrix_t a;
+  matrix_t my_mat;
   double result;
   int k = s21_determinant(NULL, &result);
   ck_assert_int_eq(k, 1);
-  s21_create_matrix(4, 3, &a);
-  k = s21_determinant(&a, NULL);
+  s21_create_matrix(4, 3, &my_mat);
+  k = s21_determinant(&my_mat, NULL);
   ck_assert_int_eq(k, 1);
-  k = s21_determinant(&a, &result);
+  k = s21_determinant(&my_mat, &result);
   ck_assert_int_eq(k, 2);
-  s21_remove_matrix(&a);
+  s21_remove_matrix(&my_mat);
 }
 END_TEST
 
