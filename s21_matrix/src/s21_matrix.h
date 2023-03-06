@@ -1,7 +1,7 @@
+#include <check.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include <check.h>
 
 #define SUCCESS 1
 #define FAILURE 0
@@ -40,4 +40,3 @@ int cycle_su(matrix_t *A, matrix_t *B, matrix_t *result, int type);
 
 // Минор матрицы
 int get_minor_ij(int row, int column, matrix_t *A, matrix_t *result);
-
